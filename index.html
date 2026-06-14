@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ervin Fernandez — Web Developer</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --surface: #161616;
+      --surface2: #1e1e1e;
+      --border: #2a2a2a;
+      --orange: #ff4d00;
+      --orange-hover: #e64400;
+      --text: #ffffff;
+      --muted: #888888;
+      --radius: 10px;
+      --max: 1100px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(10,10,10,0.92);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2.5rem;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: var(--text);
+      text-decoration: none;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .nav-logo span {
+      display: inline-block;
+      background: var(--orange);
+      color: #fff;
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-right: 4px;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      background: var(--orange);
+      color: #fff !important;
+      padding: 0.45rem 1.1rem;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.85rem !important;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--orange-hover) !important; color: #fff !important; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 2rem 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    #particle-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse at 30% 50%, rgba(10,10,10,0.1) 0%, rgba(10,10,10,0.72) 70%),
+        linear-gradient(to bottom, rgba(10,10,10,0.6) 0%, rgba(10,10,10,0.2) 50%, rgba(10,10,10,0.65) 100%);
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      max-width: var(--max);
+      width: 100%;
+      margin: 0 auto;
+    }
+    .hero-text { display: flex; flex-direction: column; align-items: center; }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 0.4rem 1rem;
+      border-radius: 99px;
+      margin-bottom: 2rem;
+    }
+    .hero-badge::before {
+      content: '';
+      width: 7px; height: 7px;
+      background: var(--orange);
+      border-radius: 50%;
+    }
+    .hero-headline {
+      font-size: clamp(3rem, 10vw, 7.5rem);
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -2px;
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+    }
+    .hero-headline .orange { color: var(--orange); }
+    .hero-sub {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 500px;
+      margin: 0 auto 2.5rem;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.75rem 1.75rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: all 0.2s;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-orange {
+      background: var(--orange);
+      color: #fff;
+    }
+    .btn-orange:hover { background: var(--orange-hover); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+      border: 1.5px solid var(--border);
+    }
+    .btn-ghost:hover { border-color: var(--orange); color: var(--orange); }
+
+    /* ── MARQUEE STRIP ── */
+    .marquee-strip {
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+      padding: 0.85rem 0;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .marquee-track {
+      display: inline-block;
+      animation: marquee 22s linear infinite;
+    }
+    .marquee-track span {
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--muted);
+      margin: 0 2.5rem;
+    }
+    .marquee-track span.dot {
+      color: var(--orange);
+      margin: 0;
+      font-size: 0.6rem;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* ── STATS ── */
+    .stats-strip {
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .stat-item {
+      flex: 1;
+      max-width: 220px;
+      text-align: center;
+      padding: 2.5rem 1rem;
+      border-right: 1px solid var(--border);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-num {
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: var(--orange);
+      line-height: 1;
+      letter-spacing: -1px;
+    }
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-top: 0.4rem;
+    }
+
+    /* ── SECTION SHARED ── */
+    .section {
+      padding: 100px 2rem;
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: -1px;
+      line-height: 1.05;
+      margin-bottom: 1rem;
+    }
+    .section-sub {
+      color: var(--muted);
+      max-width: 520px;
+      margin-bottom: 3rem;
+      font-size: 0.95rem;
+    }
+
+    /* ── SECTION BG EFFECTS ── */
+
+    /* shared: every decorated section is relative so bg elements can be absolute */
+    #about, #work, #services, #contact { position: relative; overflow: hidden; }
+
+    /* filter overlay for all bg effects */
+    .bg-filter {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+    /* all .section content must sit above bg */
+    #about .section,
+    #work .section,
+    #services .section,
+    #contact .section { position: relative; z-index: 1; }
+    #contact > .section { position: relative; z-index: 1; }
+
+    /* ── ABOUT: drifting glowing blobs ── */
+    .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: 0;
+      animation: blob-drift 12s ease-in-out infinite;
+    }
+    .blob-1 {
+      width: 420px; height: 420px;
+      background: radial-gradient(circle, rgba(255,77,0,0.28), transparent 70%);
+      top: -80px; left: -100px;
+      animation-delay: 0s;
+    }
+    .blob-2 {
+      width: 320px; height: 320px;
+      background: radial-gradient(circle, rgba(255,120,50,0.2), transparent 70%);
+      bottom: -60px; right: -60px;
+      animation-delay: -5s;
+    }
+    .blob-3 {
+      width: 240px; height: 240px;
+      background: radial-gradient(circle, rgba(255,77,0,0.15), transparent 70%);
+      top: 50%; left: 55%;
+      animation-delay: -9s;
+      animation-duration: 15s;
+    }
+    @keyframes blob-drift {
+      0%   { opacity: 0.55; transform: translate(0, 0) scale(1); }
+      33%  { opacity: 0.75; transform: translate(30px, -25px) scale(1.08); }
+      66%  { opacity: 0.5;  transform: translate(-20px, 20px) scale(0.95); }
+      100% { opacity: 0.55; transform: translate(0, 0) scale(1); }
+    }
+    .about-bg-filter {
+      background: linear-gradient(135deg, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.3) 50%, rgba(10,10,10,0.6) 100%);
+    }
+
+    /* ── WORK: animated dot grid ── */
+    .dot-grid {
+      position: absolute;
+      inset: -40px;
+      background-image: radial-gradient(circle, rgba(255,77,0,0.28) 1.2px, transparent 1.2px);
+      background-size: 28px 28px;
+      animation: grid-drift 20s linear infinite;
+      opacity: 0.75;
+    }
+    @keyframes grid-drift {
+      0%   { transform: translate(0, 0); }
+      100% { transform: translate(28px, 28px); }
+    }
+    .work-bg-filter {
+      background: rgba(10,10,10,0.45);
+    }
+
+    /* ── SERVICES: scrolling diagonal grid lines ── */
+    .diag-grid {
+      position: absolute;
+      inset: -100px;
+      background-image:
+        repeating-linear-gradient(
+          45deg,
+          rgba(255,77,0,0.12) 0px,
+          rgba(255,77,0,0.12) 1px,
+          transparent 1px,
+          transparent 38px
+        ),
+        repeating-linear-gradient(
+          -45deg,
+          rgba(255,255,255,0.05) 0px,
+          rgba(255,255,255,0.05) 1px,
+          transparent 1px,
+          transparent 38px
+        );
+      animation: diag-scroll 18s linear infinite;
+    }
+    @keyframes diag-scroll {
+      0%   { transform: translate(0, 0); }
+      100% { transform: translate(38px, 38px); }
+    }
+    .services-bg-filter {
+      background: rgba(10,10,10,0.5);
+    }
+
+    /* ── CONTACT: pulsing concentric rings ── */
+    .rings {
+      position: absolute !important;
+      left: 50%; top: 50%;
+      transform: translate(-50%, -50%);
+      width: 800px; height: 800px;
+      z-index: 0;
+    }
+    .ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(255,77,0,0.18);
+      animation: ring-pulse 6s ease-out infinite;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+    }
+    .ring:nth-child(1) { width: 200px; height: 200px; animation-delay: 0s; }
+    .ring:nth-child(2) { width: 350px; height: 350px; animation-delay: 1.2s; }
+    .ring:nth-child(3) { width: 510px; height: 510px; animation-delay: 2.4s; }
+    .ring:nth-child(4) { width: 680px; height: 680px; animation-delay: 3.6s; }
+    .ring:nth-child(5) { width: 800px; height: 800px; animation-delay: 4.8s; }
+    @keyframes ring-pulse {
+      0%   { transform: translate(-50%, -50%) scale(0.2); opacity: 0.8; }
+      80%  { opacity: 0.1; }
+      100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+    }
+    .contact-bg-filter {
+      background: rgba(10,10,10,0.45);
+    }
+
+    /* ── ABOUT ── */
+    #about { border-top: 1px solid var(--border); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 5rem;
+      align-items: start;
+    }
+    @media (max-width: 760px) { .about-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
+    .about-text p {
+      color: var(--muted);
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      line-height: 1.75;
+    }
+    .skills-block { margin-bottom: 1.5rem; }
+    .skills-block-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--muted);
+      margin-bottom: 0.6rem;
+      font-weight: 600;
+    }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+    .tag {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 0.3rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    /* ── WORK ── */
+    #work { border-top: 1px solid var(--border); }
+    .work-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 3rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.25rem;
+    }
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .project-card:hover { border-color: var(--orange); transform: translateY(-4px); }
+    .card-thumb {
+      width: 100%; height: 200px;
+      background: var(--surface2);
+      display: block;
+      border-bottom: 1px solid var(--border);
+      overflow: hidden;
+      position: relative;
+    }
+    .card-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+    .project-card:hover .card-thumb img { transform: scale(1.04); }
+    .card-thumb-fallback {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem;
+      background: var(--surface2);
+      position: absolute; inset: 0;
+      z-index: 0;
+    }
+    .card-thumb img { position: relative; z-index: 1; }
+    .card-body { padding: 1.25rem 1.5rem 1.5rem; }
+    .card-step {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 0.4rem;
+    }
+    .card-body h3 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.6rem;
+    }
+    .card-body p { color: var(--muted); font-size: 0.88rem; line-height: 1.65; margin-bottom: 1.25rem; }
+    .card-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-bottom: 0.9rem; }
+    .card-tag {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--orange);
+      background: rgba(255,77,0,0.1);
+      border: 1px solid rgba(255,77,0,0.25);
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      font-weight: 700;
+    }
+    .card-link {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: color 0.2s, gap 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .card-link:hover { color: var(--orange); gap: 0.6rem; }
+
+    /* ── TECH SECTION DIVIDER ── */
+    .tech-section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .tech-section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(255,77,0,0.1);
+      border: 1px solid rgba(255,77,0,0.3);
+      color: var(--orange);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      padding: 0.4rem 0.9rem;
+      border-radius: 99px;
+    }
+    .tech-section-count {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-weight: 600;
+    }
+    .tech-section-gap {
+      margin-top: 4rem;
+    }
+
+    /* ── ASTRO CARD VARIANTS ── */
+    .astro-card:hover { border-color: #ff7043; }
+    .astro-step { color: #ff7043; }
+    .astro-tag {
+      color: #ff7043;
+      background: rgba(255,112,67,0.1);
+      border-color: rgba(255,112,67,0.25);
+    }
+
+    /* ── SERVICES ── */
+    #services { border-top: 1px solid var(--border); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+      gap: 1.25rem;
+    }
+    .service-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.75rem 1.5rem;
+      transition: border-color 0.2s;
+    }
+    .service-card:hover { border-color: var(--orange); }
+    .service-step {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 0.75rem;
+    }
+    .service-card h3 {
+      font-size: 1rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.5rem;
+    }
+    .service-card p { color: var(--muted); font-size: 0.85rem; line-height: 1.65; }
+
+    /* ── CONTACT ── */
+    #contact {
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    #contact .section-title { margin-bottom: 0.75rem; }
+    #contact .section-sub { margin: 0 auto 2.5rem; }
+    .contact-strip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 99px;
+      padding: 0.5rem 0.5rem 0.5rem 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .contact-strip span { color: var(--muted); font-size: 0.9rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.5rem 2.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-logo {
+      font-weight: 800;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .footer-logo span {
+      display: inline-block;
+      background: var(--orange);
+      color: #fff;
+      padding: 1px 6px;
+      border-radius: 3px;
+      margin-right: 3px;
+    }
+    footer p { color: var(--muted); font-size: 0.82rem; }
+    .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+    .footer-links a { color: var(--muted); text-decoration: none; font-size: 0.82rem; transition: color 0.2s; }
+    .footer-links a:hover { color: var(--text); }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#hero" class="nav-logo"><span>EF</span>Ervin Fernandez</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contact" class="nav-cta">Hire Me →</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <canvas id="particle-canvas"></canvas>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-text">
+        <div class="hero-badge">10 Years of Web Development</div>
+        <h1 class="hero-headline">
+          BUILD YOUR<br>
+          <span class="orange">WEBSITE.</span><br>
+          LAUNCH IT RIGHT.
+        </h1>
+        <p class="hero-sub">
+          End-to-end web development — design, development, hosting &amp; domain setup. No middlemen.
+        </p>
+        <div class="hero-btns">
+          <a href="#work" class="btn btn-orange">View My Work →</a>
+          <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-strip">
+    <div class="marquee-track">
+      <span>WordPress</span><span class="dot">◆</span>
+      <span>HTML &amp; CSS</span><span class="dot">◆</span>
+      <span>Astra Theme</span><span class="dot">◆</span>
+      <span>Web Hosting</span><span class="dot">◆</span>
+      <span>Domain Setup</span><span class="dot">◆</span>
+      <span>SSL &amp; DNS</span><span class="dot">◆</span>
+      <span>Server Config</span><span class="dot">◆</span>
+      <span>Elementor</span><span class="dot">◆</span>
+      <span>WooCommerce</span><span class="dot">◆</span>
+      <span>Responsive Design</span><span class="dot">◆</span>
+      <!-- duplicate for seamless loop -->
+      <span>WordPress</span><span class="dot">◆</span>
+      <span>HTML &amp; CSS</span><span class="dot">◆</span>
+      <span>Astra Theme</span><span class="dot">◆</span>
+      <span>Web Hosting</span><span class="dot">◆</span>
+      <span>Domain Setup</span><span class="dot">◆</span>
+      <span>SSL &amp; DNS</span><span class="dot">◆</span>
+      <span>Server Config</span><span class="dot">◆</span>
+      <span>Elementor</span><span class="dot">◆</span>
+      <span>WooCommerce</span><span class="dot">◆</span>
+      <span>Responsive Design</span><span class="dot">◆</span>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-strip">
+    <div class="stat-item">
+      <div class="stat-num">10+</div>
+      <div class="stat-label">Years Experience</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">50+</div>
+      <div class="stat-label">Projects Delivered</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">3</div>
+      <div class="stat-label">Countries Served</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">End-to-End</div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <div id="about">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="bg-filter about-bg-filter"></div>
+    <div class="section">
+      <div class="about-grid">
+        <div class="about-text">
+          <div class="section-label">About Me</div>
+          <h2 class="section-title">Developer.<br>Deployer.<br>Done Deal.</h2>
+          <p>
+            With nearly 10 years in website development, I bring more than code to the table. I understand the full lifecycle of a web project — from the first line of HTML to a live, hosted, properly configured domain.
+          </p>
+          <p>
+            My edge is infrastructure. While most developers hand you a finished site and leave the hosting to someone else, I handle it all: server setup, cPanel configuration, DNS records, SSL certificates, and domain pointing — so you go live without a hitch.
+          </p>
+          <p>
+            Whether you need a fast WordPress build, a custom-coded site, or help managing an existing one, I'm your end-to-end partner.
+          </p>
+          <br>
+          <a href="#contact" class="btn btn-orange">Let's Build Something →</a>
+        </div>
+        <div>
+          <div class="section-label">Tech Stack</div>
+          <br>
+          <div class="skills-block">
+            <div class="skills-block-label">Frontend</div>
+            <div class="tags">
+              <span class="tag">HTML5</span>
+              <span class="tag">CSS3</span>
+              <span class="tag">JavaScript</span>
+              <span class="tag">Responsive Design</span>
+            </div>
+          </div>
+          <div class="skills-block">
+            <div class="skills-block-label">CMS &amp; Builders</div>
+            <div class="tags">
+              <span class="tag">WordPress</span>
+              <span class="tag">Astra</span>
+              <span class="tag">Elementor</span>
+              <span class="tag">WooCommerce</span>
+            </div>
+          </div>
+          <div class="skills-block">
+            <div class="skills-block-label">Hosting &amp; Infrastructure</div>
+            <div class="tags">
+              <span class="tag">Web Hosting Setup</span>
+              <span class="tag">Domain Config</span>
+              <span class="tag">SSL / DNS</span>
+              <span class="tag">cPanel</span>
+              <span class="tag">Server Management</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WORK -->
+  <div id="work" style="border-top: 1px solid var(--border);">
+    <div class="dot-grid"></div>
+    <div class="bg-filter work-bg-filter"></div>
+    <div class="section">
+      <div class="work-title-row">
+        <div>
+          <div class="section-label">Portfolio</div>
+          <h2 class="section-title" style="margin-bottom:0.5rem;">Selected Projects.</h2>
+        </div>
+      </div>
+
+      <!-- WordPress Section -->
+      <div class="tech-section-header">
+        <div class="tech-section-badge">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="8" cy="8" r="7.5" stroke="currentColor"/><path d="M2 8c0-3.314 2.686-6 6-6s6 2.686 6 6-2.686 6-6 6-6-2.686-6-6z" fill="currentColor" opacity=".15"/><path d="M5.5 5.5L8 10.5L10.5 5.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          WordPress Development
+        </div>
+        <span class="tech-section-count">9 Projects</span>
+      </div>
+      <div class="projects-grid">
+
+        <div class="project-card">
+          <div class="card-thumb">
+            <div class="card-thumb-fallback">💳</div>
+            <img src="img/proj-loadcentral.jpg" alt="LoadCentral" loading="lazy" onerror="this.src='https://image.thum.io/get/width/640/crop/400/https://loadcentral.com.ph/'" />
+          </div>
+          <div class="card-body">
+            <div class="card-step">Project 01</div>
+            <h3>LoadCentral</h3>
+            <div class="card-tags">
+              <span class="card-tag">WordPress</span>
+              <span class="card-tag">Fintech</span>
+              <span class="card-tag">Philippines</span>
+            </div>
+            <p>High-traffic platform for a Philippine prepaid loading &amp; payment solutions provider. Built for reliability with full server and domain management.</p>
+            <a href="https://loadcentral.com.ph/" target="_blank" rel="nofollow noopener noreferrer" class="card-link">Visit Site →</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="card-thumb">
+            <div class="card-thumb-fallback">⚙️</div>
+            <img src="img/proj-jefferis.jpg" alt="Jefferis Engineering" loading="lazy" onerror="this.src='https://image.thum.io/get/width/640/crop/400/https://www.j-eng.co.uk/'" />
+          </div>
+          <div class="card-body">
+            <div class="card-step">Project 02</div>
+            <h3>Jefferis Engineering</h3>
+            <div class="card-tags">
+              <span class="card-tag">WordPress</span>
+              <span class="card-tag">Corporate</span>
+              <span class="card-tag">UK</span>
+            </div>
+            <p>Professional corporate site for a UK-based multi-disciplined engineering firm. Credibility-focused design with full UK hosting and domain setup.</p>
+            <a href="https://www.j-eng.co.uk/" target="_blank" rel="nofollow noopener noreferrer" class="card-link">Visit Site →</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="card-thumb">
+            <div class="card-thumb-fallback">💊</div>
+            <img src="img/proj-tatioactive.jpg" alt="Tatio Active" loading="lazy" onerror="this.src='https://image.thum.io/get/width/640/crop/400/https://tatioactivedx.com/'" />
+          </div>
+          <div class="card-body">
+            <div class="card-step">Project 03</div>
+            <h3>Tatio Active</h3>
+            <div class="card-tags">
+              <span class="card-tag">WordPress</span>
+              <span class="card-tag">Health &amp; Beauty</span>
+              <span class="card-tag">E-commerce</span>
+            </div>
+            <p>Product website for Tatiomax Pharma Corporation's glutathione skincare line. Clean, elegant design with full e-commerce and hosting setup.</p>
+            <a href="https://tatioactivedx.com/" target="_blank" rel="nofollow noopener noreferrer" class="card-link">Visit Site →</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="card-thumb">
+            <div class="card-thumb-fallback">🐾</div>
+            <img src="img/proj-dawggrog.jpg" alt="Dawg Grog" loading="lazy" onerror="this.src='https://image.thum.io/get/width/640/crop/400/https://dawggrog.com/'" />
+          </div>
+          <div class="card-body">
+            <div class="card-step">Project 04</div>
+            <h3>Dawg Grog</h3>
+            <div class="card-tags">
+              <span class="card-tag">WordPress</span>
+              <span class="card-tag">Pet Products</span>
+              <span class="card-tag">E-commerce</span>
+            </div>
+            <p>Branding and product website for a plant-based pet beverage brand. Bold visual design with seamless hosting and domain configuration.</p>
+            <a href="https://dawggrog.com/" target="_blank" rel="nofollow noopener noreferrer" class="card-link">Visit Site →</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="card-thumb">
+            <div class="card-thumb-fallback">📷</div>
+            <img src="img/proj-tamara.jpg" alt="Tamara Allen" loading="lazy" onerror="this.src='https://image.thum.io/get/width/640/crop/400/https://tamara-allen.net/'" />
+          </div>
+          <div class="card-body">
+            <div class="card-step">Project 05</div>
+            <h3>Tamara Allen</h3>
+            <div class="card-tags">
+              <span class="card-tag">WordPress</span>
+              <span class="card-tag">Personal Portfolio</span>
+              <span class="card-tag">Photography</span>
+            </div>
+            <p>Personal portfolio for an explorer, storyteller, and photographer. Visually immersive design showcasing travel and creative work.</p>
+            <a href="https://tamara-allen.net/" target="_blank" rel="nofollow noopener noreferrer" class="card-link">Visit Site →</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="card-thumb">
+            <div class="card-thumb-fallback">🏥</div>
+            <img src="img/proj-bfshealth.jpg" alt="BFS Health Corp" loading="lazy" onerror="this.src='https://image.thum.io/get/width/640/crop/400/https://bfshealthcorp.com/'" />
+          </div>
+          <div class="card-body">
+            <div class="card-step">Project 06</div>
+            <h3>BFS Health Corp</h3>
+            <div class="card-tags">
+              <span class="card-tag">WordPress</span>
+              <span class="card-tag">Healthcare</span>
+              <span class="card-tag">Corporate</span>
+            </div>
+            <p>Corporate website for a healthcare company focused on accessible health solutions. Professional layout with full hosting and domain management.</p>
+            <a href="https://bfshealthcorp.com/" target="_blank" rel="nofollow noopener noreferrer" class="card-link">Visit Site →</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="card-thumb">
+            <div class="card-thumb-fallback">📱</div>
+            <img src="img/proj-baiboard.jpg" alt="Baiboard" loading="lazy" onerror="this.src='https://image.thum.io/get/width/640/crop/400/https://baiboard.com/'" />
+          </div>
+          <div class="card-body">
+            <div class="card-step">Project 07</div>
+            <h3>Baiboard</h3>
+            <div class="card-tags">
+              <span class="card-tag">WordPress</span>
+              <span class="card-tag">Tech / Apps</span>
+              <span class="card-tag">Review</span>
+            </div>
+            <p>App review and collaboration platform for small businesses and educators. Bold, colorful design with complete hosting setup and domain integration.</p>
+            <a href="https://baiboard.com/" target="_blank" rel="nofollow noopener noreferrer" class="card-link">Visit Site →</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="card-thumb">
+            <div class="card-thumb-fallback">🌸</div>
+            <img src="img/proj-ishibari.jpg" alt="Ishibari" loading="lazy" onerror="this.src='https://image.thum.io/get/width/640/crop/400/https://ishibari.com/'" />
+          </div>
+          <div class="card-body">
+            <div class="card-step">Project 08</div>
+            <h3>Ishibari</h3>
+            <div class="card-tags">
+              <span class="card-tag">WordPress</span>
+              <span class="card-tag">E-commerce</span>
+              <span class="card-tag">Natural Stone</span>
+            </div>
+            <p>Elegant e-commerce site for a natural stone product line. Refined product showcase with smooth UX and end-to-end hosting and domain setup.</p>
+            <a href="https://ishibari.com/" target="_blank" rel="nofollow noopener noreferrer" class="card-link">Visit Site →</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="card-thumb">
+            <div class="card-thumb-fallback">🏰</div>
+            <img src="img/proj-heidelberg.jpg" alt="Heidelberg Guide" loading="lazy" onerror="this.src='https://image.thum.io/get/width/640/crop/400/https://www.heidelberg-guide.com/'" />
+          </div>
+          <div class="card-body">
+            <div class="card-step">Project 09</div>
+            <h3>Heidelberg Guide</h3>
+            <div class="card-tags">
+              <span class="card-tag">WordPress</span>
+              <span class="card-tag">Travel &amp; Tourism</span>
+              <span class="card-tag">Germany</span>
+            </div>
+            <p>Comprehensive travel guide for Heidelberg, Germany — covering attractions, local tips, and city highlights. Full hosting and domain configuration included.</p>
+            <a href="https://www.heidelberg-guide.com/" target="_blank" rel="nofollow noopener noreferrer" class="card-link">Visit Site →</a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Astro Section -->
+      <div class="tech-section-header tech-section-gap">
+        <div class="tech-section-badge" style="background:rgba(255,90,50,0.08); border-color:rgba(255,90,50,0.25); color:#ff7043;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M8.358 20.162c-1.186-1.7-1.189-4.616.643-6.548l5.518 5.747c-1.697 1.35-4.156 2.148-6.161.801zM16 12l-6-1 1 5 2.5-1.5L16 12z"/><path d="M12 2L6.5 15l1.75-.875L12 21l3.75-6.875L17.5 15 12 2z"/></svg>
+          Astro Development
+        </div>
+        <span class="tech-section-count">6 Projects</span>
+      </div>
+      <div class="projects-grid" id="astro-grid">
+
+        <div class="project-card astro-card">
+          <div class="card-thumb">
+            <div class="card-thumb-fallback">🏔️</div>
+            <img src="img/proj-heilstein.jpg" alt="Heilstein" loading="lazy" onerror="this.src='https://image.thum.io/get/width/640/crop/400/https://heilstein.de/'" />
+          </div>
+          <div class="card-body">
+            <div class="card-step astro-step">Project 01</div>
+            <h3>Heilstein</h3>
+            <div class="card-tags">
+              <span class="card-tag astro-tag">Astro</span>
+              <span class="card-tag astro-tag">Germany</span>
+            </div>
+            <p>High-performance Astro site for a German brand — blazing-fast load times, modern architecture, and full hosting and domain setup.</p>
+            <a href="https://heilstein.de/" target="_blank" rel="nofollow noopener noreferrer" class="card-link">Visit Site →</a>
+          </div>
+        </div>
+
+        <div class="project-card astro-card">
+          <div class="card-thumb">
+            <div class="card-thumb-fallback">🏨</div>
+            <img src="img/proj-berlin-hotels.jpg" alt="About Berlin Hotels" loading="lazy" onerror="this.src='https://image.thum.io/get/width/640/crop/400/https://www.about-berlin-hotels.de/'" />
+          </div>
+          <div class="card-body">
+            <div class="card-step astro-step">Project 02</div>
+            <h3>About Berlin Hotels</h3>
+            <div class="card-tags">
+              <span class="card-tag astro-tag">Astro</span>
+              <span class="card-tag astro-tag">Travel</span>
+              <span class="card-tag astro-tag">Germany</span>
+            </div>
+            <p>Travel and accommodation guide for Berlin built with Astro. Optimized for SEO and speed with full domain and hosting configuration.</p>
+            <a href="https://www.about-berlin-hotels.de/" target="_blank" rel="nofollow noopener noreferrer" class="card-link">Visit Site →</a>
+          </div>
+        </div>
+
+        <div class="project-card astro-card">
+          <div class="card-thumb">
+            <div class="card-thumb-fallback">🏙️</div>
+            <img src="img/proj-karlsruhe.jpg" alt="Karlsruhe Interaktiv" loading="lazy" onerror="this.src='https://image.thum.io/get/width/640/crop/400/https://www.karlsruhe-interaktiv.de/'" />
+          </div>
+          <div class="card-body">
+            <div class="card-step astro-step">Project 03</div>
+            <h3>Karlsruhe Interaktiv</h3>
+            <div class="card-tags">
+              <span class="card-tag astro-tag">Astro</span>
+              <span class="card-tag astro-tag">City Guide</span>
+              <span class="card-tag astro-tag">Germany</span>
+            </div>
+            <p>Interactive city guide for Karlsruhe, Germany. Built with Astro for exceptional performance, with complete hosting and domain setup.</p>
+            <a href="https://www.karlsruhe-interaktiv.de/" target="_blank" rel="nofollow noopener noreferrer" class="card-link">Visit Site →</a>
+          </div>
+        </div>
+
+        <div class="project-card astro-card">
+          <div class="card-thumb">
+            <div class="card-thumb-fallback">🛠️</div>
+            <img src="img/proj-tooltester.jpg" alt="Homepage Tool Tester" loading="lazy" onerror="this.src='https://image.thum.io/get/width/640/crop/400/https://homepagetooltester.de/'" />
+          </div>
+          <div class="card-body">
+            <div class="card-step astro-step">Project 04</div>
+            <h3>Homepage Tool Tester</h3>
+            <div class="card-tags">
+              <span class="card-tag astro-tag">Astro</span>
+              <span class="card-tag astro-tag">Tech Reviews</span>
+              <span class="card-tag astro-tag">Germany</span>
+            </div>
+            <p>Website builder review and comparison platform built with Astro. Content-heavy site optimised for speed and SEO with full infrastructure setup.</p>
+            <a href="https://homepagetooltester.de/" target="_blank" rel="nofollow noopener noreferrer" class="card-link">Visit Site →</a>
+          </div>
+        </div>
+
+        <div class="project-card astro-card">
+          <div class="card-thumb">
+            <div class="card-thumb-fallback">🏕️</div>
+            <img src="img/proj-touroffroad.jpg" alt="Tour Off Road" loading="lazy" onerror="this.src='https://image.thum.io/get/width/640/crop/400/https://tour-off-road.de/'" />
+          </div>
+          <div class="card-body">
+            <div class="card-step astro-step">Project 05</div>
+            <h3>Tour Off Road</h3>
+            <div class="card-tags">
+              <span class="card-tag astro-tag">Astro</span>
+              <span class="card-tag astro-tag">Adventure</span>
+              <span class="card-tag astro-tag">Germany</span>
+            </div>
+            <p>Off-road adventure and tour website built with Astro. Fast, rugged design with complete hosting and domain configuration for a seamless launch.</p>
+            <a href="https://tour-off-road.de/" target="_blank" rel="nofollow noopener noreferrer" class="card-link">Visit Site →</a>
+          </div>
+        </div>
+
+        <div class="project-card astro-card">
+          <div class="card-thumb">
+            <div class="card-thumb-fallback">🏎️</div>
+            <img src="img/proj-gtimag.jpg" alt="GTI Magazine" loading="lazy" onerror="this.src='https://image.thum.io/get/width/640/crop/400/https://www.gtimag.com/'" />
+          </div>
+          <div class="card-body">
+            <div class="card-step astro-step">Project 06</div>
+            <h3>GTI Magazine</h3>
+            <div class="card-tags">
+              <span class="card-tag astro-tag">Astro</span>
+              <span class="card-tag astro-tag">Automotive</span>
+              <span class="card-tag astro-tag">Magazine</span>
+            </div>
+            <p>Automotive magazine and GTI enthusiast platform built with Astro. High-performance editorial site with full server and domain management.</p>
+            <a href="https://www.gtimag.com/" target="_blank" rel="nofollow noopener noreferrer" class="card-link">Visit Site →</a>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <div id="services" style="border-top: 1px solid var(--border);">
+    <div class="diag-grid"></div>
+    <div class="bg-filter services-bg-filter"></div>
+    <div class="section">
+      <div class="section-label">What I Offer</div>
+      <h2 class="section-title">How It Works.</h2>
+      <p class="section-sub">You bring the idea. I handle everything from first pixel to live URL.</p>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-step">Step 01</div>
+          <h3>Website Development</h3>
+          <p>Custom-built websites using WordPress, Astra, HTML &amp; CSS — tailored to your brand, fast, and mobile-ready.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-step">Step 02</div>
+          <h3>Hosting &amp; Deployment</h3>
+          <p>Full server setup and hosting configuration. Your site goes live properly — no broken links, no downtime surprises.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-step">Step 03</div>
+          <h3>Domain Management</h3>
+          <p>Domain registration, DNS configuration, and SSL certificates — everything for a professional, secure web presence.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-step">Step 04</div>
+          <h3>Maintenance &amp; Support</h3>
+          <p>Ongoing updates, speed optimization, security checks, and troubleshooting to keep your site performing its best.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div id="contact" style="border-top: 1px solid var(--border);">
+    <div class="rings">
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+    </div>
+    <div class="bg-filter contact-bg-filter"></div>
+    <div class="section" style="text-align:center; padding-top: 40px;">
+      <div class="section-label">Let's Work Together</div>
+      <h2 class="section-title">Ready to<br><span style="color:var(--orange)">Launch?</span></h2>
+      <p class="section-sub">Whether you have a clear brief or just an idea — I'm happy to talk it through and find the right solution.</p>
+      <div class="contact-strip">
+        <span>fernandezervin@gmail.com</span>
+        <a href="mailto:fernandezervin@gmail.com" class="btn btn-orange" style="border-radius:6px; padding: 0.5rem 1.1rem; font-size:0.85rem;">Send Email →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <a href="#hero" class="footer-logo"><span>EF</span>Ervin Fernandez.</a>
+    <ul class="footer-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <p>© 2026 Ervin Fernandez · Web Developer</p>
+  </footer>
+
+  <script>
+    // ── PARTICLE CANVAS ──
+    (function() {
+      const canvas = document.getElementById('particle-canvas');
+      const ctx = canvas.getContext('2d');
+      let W, H, particles = [];
+      const COUNT = 90;
+      const MAX_DIST = 130;
+      const ORANGE = 'rgba(255,77,0,';
+      const WHITE  = 'rgba(255,255,255,';
+
+      function resize() {
+        W = canvas.width  = canvas.offsetWidth;
+        H = canvas.height = canvas.offsetHeight;
+      }
+
+      function rand(min, max) { return Math.random() * (max - min) + min; }
+
+      function createParticle() {
+        return {
+          x: rand(0, W),
+          y: rand(0, H),
+          vx: rand(-0.35, 0.35),
+          vy: rand(-0.35, 0.35),
+          r: rand(1.2, 2.5),
+          color: Math.random() > 0.75 ? ORANGE : WHITE
+        };
+      }
+
+      function init() {
+        resize();
+        particles = Array.from({ length: COUNT }, createParticle);
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+
+        // draw connections
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < MAX_DIST) {
+              const alpha = (1 - dist / MAX_DIST) * 0.18;
+              ctx.beginPath();
+              ctx.strokeStyle = `rgba(255,255,255,${alpha})`;
+              ctx.lineWidth = 0.6;
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+
+        // draw dots
+        particles.forEach(p => {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = p.color + '0.7)';
+          ctx.fill();
+        });
+      }
+
+      function update() {
+        particles.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < -10) p.x = W + 10;
+          if (p.x > W + 10) p.x = -10;
+          if (p.y < -10) p.y = H + 10;
+          if (p.y > H + 10) p.y = -10;
+        });
+      }
+
+      function loop() {
+        update();
+        draw();
+        requestAnimationFrame(loop);
+      }
+
+      window.addEventListener('resize', () => {
+        resize();
+        particles.forEach(p => {
+          p.x = rand(0, W);
+          p.y = rand(0, H);
+        });
+      });
+
+      init();
+      loop();
+    })();
+  </script>
+
+</body>
+</html>
