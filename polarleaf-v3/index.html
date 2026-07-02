@@ -1,0 +1,333 @@
+<title>The Polar Leaf Inc. — Warm / Hopeful Concept</title>
+<style>
+  :root{
+    --orange:#EA5A1B;
+    --orange-deep:#C8480F;
+    --peach:#FBEAD9;
+    --cream:#FBF6EF;
+    --green:#2E8B6F;
+    --green-deep:#206B54;
+    --ink:#2B2621;
+    --muted:#7a7168;
+    --line:#ece1d4;
+    --white:#ffffff;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+  body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--cream);line-height:1.6;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1160px;margin:0 auto;padding:0 26px}
+  a{color:inherit;text-decoration:none}
+  img{max-width:100%;display:block}
+  h1,h2,h3{margin:0;letter-spacing:-.01em;text-wrap:balance;font-weight:800}
+  .eyebrow{font-size:13px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--orange)}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:15px;padding:15px 30px;border-radius:999px;cursor:pointer;border:2px solid transparent;transition:transform .15s,box-shadow .15s,background .15s}
+  .btn:hover{transform:translateY(-2px)}
+  .btn-orange{background:var(--orange);color:#fff;box-shadow:0 10px 24px rgba(234,90,27,.32)}
+  .btn-orange:hover{background:var(--orange-deep)}
+  .btn-green{background:var(--green);color:#fff;box-shadow:0 10px 24px rgba(46,139,111,.28)}
+  .btn-ghost{background:#fff;color:var(--ink);border-color:var(--line)}
+  .btn-ghost:hover{border-color:var(--orange);color:var(--orange)}
+  :focus-visible{outline:3px solid var(--green);outline-offset:2px}
+
+  /* ---- header ---- */
+  header{position:sticky;top:0;z-index:30;background:rgba(251,246,239,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  nav{display:flex;align-items:center;justify-content:space-between;height:86px;gap:20px}
+  nav .logo{height:56px;width:auto}
+  @media(max-width:560px){nav .logo{height:42px}}
+  .navlinks{display:flex;align-items:center;gap:26px;font-weight:700;font-size:15px}
+  .navlinks a:not(.btn):hover{color:var(--orange)}
+  @media(max-width:900px){.navlinks a:not(.btn){display:none}}
+
+  /* ---- hero ---- */
+  .hero{background:linear-gradient(180deg,var(--peach),var(--cream))}
+  .hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:52px;align-items:center;padding:70px 26px 76px}
+  @media(max-width:900px){.hero .wrap{grid-template-columns:1fr;gap:36px;padding:48px 26px 56px}}
+  .hero h1{font-size:clamp(34px,5vw,58px);line-height:1.05;margin:16px 0 0}
+  .hero h1 .u{color:var(--orange)}
+  .hero p.lead{font-size:19px;color:#5c544c;max-width:52ch;margin:20px 0 0}
+  .hero .cta{display:flex;gap:14px;margin-top:28px;flex-wrap:wrap}
+  .hero .trust{margin-top:20px;font-size:14px;color:var(--muted);display:flex;align-items:center;gap:8px}
+
+  /* give module in hero */
+  .give-card{background:#fff;border-radius:26px;box-shadow:0 30px 60px rgba(43,38,33,.12);padding:30px;border:1px solid var(--line)}
+  .give-card h3{font-size:20px;margin-bottom:16px}
+  .toggle{display:grid;grid-template-columns:1fr 1fr;gap:8px;background:var(--peach);border-radius:999px;padding:6px;margin-bottom:20px}
+  .toggle button{border:none;background:transparent;font-weight:800;font-size:15px;padding:12px;border-radius:999px;cursor:pointer;color:var(--muted);font-family:inherit}
+  .toggle button.on{background:#fff;color:var(--orange);box-shadow:0 4px 12px rgba(43,38,33,.1)}
+  .amts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+  .amts button{border:2px solid var(--line);background:#fff;border-radius:14px;padding:16px 6px;font-weight:800;font-size:17px;cursor:pointer;font-family:inherit;color:var(--ink);transition:all .12s}
+  .amts button:hover{border-color:var(--orange)}
+  .amts button.on{border-color:var(--orange);background:var(--orange);color:#fff}
+  .give-card .btn{width:100%;justify-content:center}
+  .give-card .fine{text-align:center;font-size:12.5px;color:var(--muted);margin:12px 0 0}
+  .inq{display:flex;flex-direction:column;gap:12px}
+  .inq label{display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:700;color:var(--ink)}
+  .inq input,.inq select,.inq textarea{font-family:inherit;font-size:15px;font-weight:500;color:var(--ink);background:var(--cream);border:2px solid var(--line);border-radius:12px;padding:12px 14px;width:100%}
+  .inq input:focus,.inq select:focus,.inq textarea:focus{outline:none;border-color:var(--orange);background:#fff}
+  .inq textarea{resize:vertical}
+  .inq button{margin-top:4px}
+
+  /* ---- connection band ---- */
+  .connect{background:#fff}
+  .connect .wrap{display:grid;grid-template-columns:.9fr 1.1fr;gap:52px;align-items:center;padding:76px 26px}
+  @media(max-width:900px){.connect .wrap{grid-template-columns:1fr;gap:32px}}
+  .connect h2{font-size:clamp(28px,3.6vw,40px);line-height:1.1;margin:12px 0 16px}
+  .connect p{color:#5c544c;font-size:17px;max-width:56ch}
+  .photo{border-radius:24px;overflow:hidden;aspect-ratio:4/3;position:relative}
+  .photo .ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:60px}
+  .photo .cap{position:absolute;left:16px;bottom:14px;color:#fff;font-size:12px;letter-spacing:.06em;text-transform:uppercase;text-shadow:0 1px 6px rgba(0,0,0,.5)}
+  .ph-warm{background:linear-gradient(135deg,#EA5A1B,#F6A24B)}
+  .ph-hope{background:linear-gradient(135deg,#2E8B6F,#7FC9A8)}
+  .ph-sun{background:linear-gradient(135deg,#E8951C,#F6C313)}
+
+  /* ---- gift tiers ---- */
+  .gifts{padding:82px 0}
+  .center{text-align:center;max-width:60ch;margin:0 auto 44px}
+  .center h2{font-size:clamp(28px,3.8vw,42px);line-height:1.08;margin:12px 0 12px}
+  .center p{color:#5c544c;font-size:17px}
+  .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  @media(max-width:860px){.tiers{grid-template-columns:1fr}}
+  .tier{background:#fff;border-radius:24px;border:1px solid var(--line);padding:32px;display:flex;flex-direction:column;transition:transform .15s,box-shadow .15s}
+  .tier:hover{transform:translateY(-6px);box-shadow:0 24px 48px rgba(43,38,33,.12)}
+  .tier .ring{width:64px;height:64px;border-radius:50%;background:var(--peach);display:flex;align-items:center;justify-content:center;font-size:30px;margin-bottom:18px}
+  .tier .amt{font-size:30px;font-weight:800;color:var(--orange)}
+  .tier .per{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+  .tier p{margin:0 0 22px;color:#5c544c}
+  .tier .btn{margin-top:auto;justify-content:center}
+  .tier.feature{background:var(--green);color:#fff;border-color:var(--green)}
+  .tier.feature .ring{background:rgba(255,255,255,.18)}
+  .tier.feature .amt{color:#fff}
+  .tier.feature .per{color:#d6efe6}
+  .tier.feature p{color:#eafaf4}
+
+  /* ---- impact ---- */
+  .impact{background:var(--orange);color:#fff}
+  .impact .wrap{padding:64px 26px;text-align:center}
+  .impact h2{font-size:clamp(24px,3vw,34px);max-width:26ch;margin:0 auto 36px}
+  .impact .nums{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  @media(max-width:700px){.impact .nums{grid-template-columns:1fr;gap:30px}}
+  .impact .n{font-size:clamp(32px,4vw,48px);font-weight:800;line-height:1}
+  .impact .l{font-size:15px;opacity:.95;margin-top:8px}
+
+  /* ---- testimonial ---- */
+  .story{background:var(--cream)}
+  .story .wrap{padding:82px 26px;display:grid;grid-template-columns:.85fr 1.15fr;gap:52px;align-items:center}
+  @media(max-width:900px){.story .wrap{grid-template-columns:1fr;gap:32px}}
+  .story blockquote{margin:0;font-size:clamp(23px,2.8vw,32px);font-weight:700;line-height:1.32}
+  .story blockquote .mark{color:var(--orange)}
+  .story cite{display:block;margin-top:22px;font-style:normal;font-weight:800;color:var(--ink)}
+  .story cite span{display:block;font-weight:600;color:var(--muted);font-size:15px;margin-top:2px}
+
+  /* ---- ways / cta ---- */
+  .ways{padding:80px 0}
+  .waygrid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px}
+  @media(max-width:860px){.waygrid{grid-template-columns:1fr}}
+  .way{background:#fff;border-radius:24px;border:1px solid var(--line);padding:34px;text-align:center}
+  .way .ring{width:64px;height:64px;border-radius:50%;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:28px;background:var(--peach)}
+  .way h3{font-size:21px;margin-bottom:8px}
+  .way p{color:#5c544c;margin:0 0 20px}
+
+  /* ---- footer ---- */
+  footer{background:var(--ink);color:#c8bfb4}
+  footer .wrap{padding:58px 26px 30px}
+  .fgrid{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:40px}
+  @media(max-width:820px){.fgrid{grid-template-columns:1fr}}
+  footer .flogo{background:#fff;display:inline-block;padding:12px 18px;border-radius:14px;margin-bottom:18px}
+  footer .flogo img{height:42px}
+  footer h4{color:#fff;font-size:13px;letter-spacing:.08em;text-transform:uppercase;margin:0 0 14px}
+  footer .row{margin-bottom:8px}
+  footer a:hover{color:var(--orange)}
+  .motto{color:#F6C313;font-weight:800;margin:0 0 14px}
+  .fbar{border-top:1px solid #443c34;margin-top:34px;padding-top:18px;text-align:center;font-size:12.5px;color:#8f8578}
+</style>
+
+<!-- HEADER -->
+<header>
+  <div class="wrap">
+    <nav>
+      <a href="#top"><img class="logo" src="polarleafinc_logo.png" alt="The Polar Leaf Inc."></a>
+      <div class="navlinks">
+        <a href="#connect">Our Mission</a>
+        <a href="#gifts">How We Help</a>
+        <a href="#story">Stories</a>
+        <a href="#ways">Get Involved</a>
+        <a href="#contact">Contact</a>
+        <a class="btn btn-orange" href="#inquire">Inquire</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">Faith · Hope · Love</div>
+      <h1>Give hope to the families of those who <span class="u">served us.</span></h1>
+      <p class="lead">When leukemia strikes a police officer, a soldier, or their child, no family should fight alone. The Polar Leaf walks with them — from diagnosis through treatment and recovery.</p>
+      <div class="cta">
+        <a class="btn btn-orange" href="#inquire">Request assistance</a>
+        <a class="btn btn-ghost" href="#connect">Learn about us</a>
+      </div>
+      <div class="trust">🛡️ SEC-registered · DSWD-accredited · Serving PNP &amp; AFP families</div>
+    </div>
+
+    <!-- inquiry module -->
+    <div class="give-card" id="inquire">
+      <h3>How can we help?</h3>
+      <p style="color:var(--muted);font-size:14px;margin:-6px 0 18px">Tell us how we can reach you and we'll respond as soon as we can.</p>
+      <form onsubmit="return false" class="inq">
+        <label>Your name
+          <input type="text" name="name" placeholder="Juan dela Cruz" required>
+        </label>
+        <label>Contact number or email
+          <input type="text" name="contact" placeholder="0900 000 0000 / you@email.com" required>
+        </label>
+        <label>I'm inquiring about
+          <select name="topic">
+            <option>Assistance for a patient / family</option>
+            <option>Membership</option>
+            <option>Volunteering</option>
+            <option>Partnership</option>
+            <option>General inquiry</option>
+          </select>
+        </label>
+        <label>Message
+          <textarea name="message" rows="3" placeholder="How can we help you?"></textarea>
+        </label>
+        <button type="submit" class="btn btn-orange">Send inquiry</button>
+      </form>
+      <p class="fine">Or call 0919 260 6393 · thepolarleafinc@yahoo.com</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONNECTION BAND -->
+<section class="connect" id="connect">
+  <div class="wrap">
+    <div class="photo"><div class="ph ph-warm">👮‍♂️❤️</div><span class="cap">Replace with a family / survivor photo</span></div>
+    <div>
+      <div class="eyebrow">Stand with a family</div>
+      <h2>Behind every badge is a family who needs us now</h2>
+      <p>The Polar Leaf was founded in 2017 by <strong>PBGen. Regino S. Catiis (Ret.)</strong> — a police officer and leukemia survivor. Today we are the first foundation in the Philippines built specifically for PNP and AFP personnel and their dependents facing blood cancers.</p>
+      <p style="margin-top:14px">We walk with families through real help: medicine, transfusions, chemotherapy support, counseling, and a community that never lets a family face the journey alone.</p>
+      <a class="btn btn-green" href="#gifts" style="margin-top:24px">See how we help</a>
+    </div>
+  </div>
+</section>
+
+<!-- GIFT TIERS -->
+<section class="gifts" id="gifts">
+  <div class="wrap">
+    <div class="center">
+      <div class="eyebrow">Our programs of care</div>
+      <h2>How we help families fight</h2>
+      <p>From the first diagnosis through treatment and recovery, The Polar Leaf stands beside PNP and AFP personnel and their dependents.</p>
+    </div>
+    <div class="tiers">
+      <div class="tier">
+        <div class="ring">💊</div>
+        <h3 style="font-size:21px;margin-bottom:10px">Financial assistance</h3>
+        <p>Help with medical expenses, treatment, and benefit claims for families battling blood cancers.</p>
+        <a class="btn btn-ghost" href="#inquire">Request help</a>
+      </div>
+      <div class="tier feature">
+        <div class="ring">📣</div>
+        <h3 style="font-size:21px;margin-bottom:10px">Awareness &amp; education</h3>
+        <p>Spreading knowledge of leukemia and blood disorders — symptoms, early detection, and where to get care.</p>
+        <a class="btn btn-orange" href="#inquire">Learn more</a>
+      </div>
+      <div class="tier">
+        <div class="ring">🙏</div>
+        <h3 style="font-size:21px;margin-bottom:10px">Medical &amp; spiritual care</h3>
+        <p>Voluntary medical support, palliative-care guidance, and counseling for patients and their loved ones.</p>
+        <a class="btn btn-ghost" href="#inquire">Reach out</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT -->
+<section class="impact">
+  <div class="wrap">
+    <div class="eyebrow" style="color:#ffe6d6">Since 2017</div>
+    <h2>A foundation built on faith, hope, and love</h2>
+    <div class="nums">
+      <div><div class="n">1st</div><div class="l">Health foundation of its kind in the Philippines</div></div>
+      <div><div class="n">PNP &amp; AFP</div><div class="l">Personnel and dependents we serve</div></div>
+      <div><div class="n">6</div><div class="l">Programs — from financial aid to spiritual care</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section class="story" id="story">
+  <div class="wrap">
+    <div class="photo"><div class="ph ph-hope">🕊️</div><span class="cap">Replace with survivor / founder photo</span></div>
+    <div>
+      <div class="eyebrow">A survivor's heart</div>
+      <blockquote><span class="mark">"</span>A life lived for others is a life worth living. I fought leukemia — and I know no family should ever fight it alone.<span class="mark">"</span></blockquote>
+      <cite>PBGen. Regino S. Catiis (Ret.)<span>Founder &amp; Chairman · Leukemia survivor</span></cite>
+    </div>
+  </div>
+</section>
+
+<!-- WAYS TO HELP -->
+<section class="ways" id="ways">
+  <div class="wrap">
+    <div class="center">
+      <div class="eyebrow">Get involved</div>
+      <h2>More ways to make a difference</h2>
+    </div>
+    <div class="waygrid">
+      <div class="way">
+        <div class="ring">🙋</div>
+        <h3>Request assistance</h3>
+        <p>If you or a fellow PNP/AFP family needs help, reach out — we're here to listen.</p>
+        <a class="btn btn-orange" href="#inquire">Inquire</a>
+      </div>
+      <div class="way">
+        <div class="ring">🌿</div>
+        <h3>Volunteer</h3>
+        <p>Share your time or medical skills at our drives and family visits.</p>
+        <a class="btn btn-ghost" href="#inquire">Join us</a>
+      </div>
+      <div class="way">
+        <div class="ring">🤝</div>
+        <h3>Partner</h3>
+        <p>Bring your unit or company alongside our mission as a partner.</p>
+        <a class="btn btn-ghost" href="#inquire">Partner</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="wrap">
+    <div class="fgrid">
+      <div>
+        <span class="flogo"><img src="polarleafinc_logo.png" alt="The Polar Leaf Inc."></span>
+        <p class="motto">Deus Spes Nostra — God Is Our Hope</p>
+        <p style="max-width:42ch;margin:0 0 14px">Police and Armed Forces Leukemia and Blood Disorders Foundation of the Philippines Inc.</p>
+        <p style="font-size:12px;color:#8f8578;margin:0">SEC Reg. No. CN201709817 · DSWD-accredited SWDA · A non-stock, non-profit, volunteer-based foundation.</p>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <div class="row">No. 19, 3rd Avenue,<br>Brgy. Bagong Lipunan, Cubao, Quezon City</div>
+        <div class="row">Smart: 0919 260 6393</div>
+        <div class="row">Globe: 0995 327 8202</div>
+        <div class="row">Landline: 532 2722</div>
+      </div>
+      <div>
+        <h4>Connect</h4>
+        <div class="row"><a href="http://www.thepolarleafinc.org.ph/">thepolarleafinc.org.ph</a></div>
+        <div class="row"><a href="#">facebook.com/thepolarleafinc</a></div>
+        <div class="row"><a href="#">twitter.com/thepolarleafinc</a></div>
+        <div class="row"><a href="#">thepolarleafinc@yahoo.com</a></div>
+      </div>
+    </div>
+    <div class="fbar">© 2026 The Polar Leaf Inc. · Make a difference. Reach out. Ask us how we can help.</div>
+  </div>
+</footer>
